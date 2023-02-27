@@ -291,9 +291,9 @@ final class ElectronBeam implements ScreenStateAnimator {
         GLES10.glEnableClientState(GLES10.GL_TEXTURE_COORD_ARRAY);
 
         // Draw the frame
-        setQuad(mVertexBuffer, mDisplayWidth / 2 * (1.0f - curvedScale),
-            mDisplayHeight / 2 * (1.0f - curvedScale),
-            mDisplayWidth * curvedScale, mDisplayHeight * curvedScale);
+        setQuad(mVertexBuffer, mDisplayWidth / 2 * (curvedScale - 1.0f),
+            mDisplayHeight / 2 * (curvedScale - 1.0f),
+            mDisplayWidth / curvedScale, mDisplayHeight / curvedScale);
         GLES10.glDrawArrays(GLES10.GL_TRIANGLE_FAN, 0, 4);
 
         // dim progressively, using previous vertexes
@@ -433,14 +433,14 @@ final class ElectronBeam implements ScreenStateAnimator {
         if (DEBUG) {
             Slog.d(TAG, "setQuad: x=" + x + ", y=" + y + ", w=" + w + ", h=" + h);
         }
-        vtx.put(0, x);
+        vtx.put(0, x + w);
         vtx.put(1, y);
         vtx.put(2, x);
-        vtx.put(3, y + h);
-        vtx.put(4, x + w);
+        vtx.put(3, y);
+        vtx.put(4, x);
         vtx.put(5, y + h);
         vtx.put(6, x + w);
-        vtx.put(7, y);
+        vtx.put(7, y + h);
     }
 
     private boolean captureScreenshotTextureAndSetViewport() {
